@@ -16,5 +16,6 @@ COPY data ./data
 
 ENV PYTHONPATH=/app
 
+# Cloud platforms (Render, Railway, Fly) set PORT at runtime.
 EXPOSE 8000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

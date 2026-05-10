@@ -1,7 +1,10 @@
 """Application settings (12-factor); override via environment variables."""
 
+import json
 from functools import lru_cache
+from typing import Any
 
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,7 +24,24 @@ class Settings(BaseSettings):
         "postgresql+asyncpg://soc:soc@localhost:5432/soc_copilot"
     )
 
-    cors_origins: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    # Comma-separated or JSON array, e.g. CORS_ORIGINS=https://app.onrender.com,http://localhost:3000
+    cors_origins: list[str] = Field(
+        default=["http://localhost:3000", "http://127.0.0.1:3000"]
+    )
+
+    @field_validator("cors_origins", mode="before")
+    @classmethod
+    def parse_cors(cls, v: Any) -> list[str]:
+        if v is None:
+            return ["http://localhost:3000", "http://127.0.0.1:3000"]
+        if isinstance(v, list):
+            return [str(x).strip() for x in v if str(x).strip()]
+        if isinstance(v, str):
+            s = v.strip()
+            if s.startswith("["):
+                return [str(x).strip() for x in json.loads(s) if str(x).strip()]
+            return [x.strip() for x in s.split(",") if x.strip()]
+        return ["http://localhost:3000", "http://127.0.0.1:3000"]
 
     # LLM: OpenAI-compatible; optional — RAG still works with retrieval-only fallback
     openai_api_key: str | None = None

@@ -13,6 +13,8 @@ A **real-world style** security operations assistant that combines **RAG (LangCh
 | **Blue team / SOC** | Audit log schema for analyst actions; MITRE/OWASP knowledge corpus; IOC search demo |
 | **DevOps** | Docker & Docker Compose, GitHub Actions CI |
 
+**Cloud deploy:** use **[DEPLOY.md](DEPLOY.md)** (Render + Neon with pgvector, or AWS notes). The **Dockerfile** listens on **`PORT`** for platforms like Render.
+
 ## Quick start (Docker)
 
 ```text

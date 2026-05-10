@@ -1,0 +1,28 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# Create Postgres + pgvector on Neon (or Render PostgreSQL with vector) separately,
+# then set DATABASE_URL in the dashboard. See DEPLOY.md.
+
+services:
+  - type: web
+    name: soc-ai-copilot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: PYTHONPATH
+        value: /app
+      # Generate in dashboard or paste: openssl rand -hex 32
+      - key: SECRET_KEY
+        sync: false
+      # postgresql+asyncpg://... (must include pgvector — use Neon or RDS with extension)
+      - key: DATABASE_URL
+        sync: false
+      # Your live site + local dev, e.g. https://soc-ai-copilot.onrender.com,http://localhost:3000
+      - key: CORS_ORIGINS
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+    healthCheckPath: /api/v1/health
