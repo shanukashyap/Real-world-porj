@@ -1,0 +1,28 @@
+{
+  "indicators": [
+    {
+      "ioc_type": "domain",
+      "value": "malicious-update.example.bad",
+      "severity": "high",
+      "description": "Suspicious update domain observed in phishing campaigns targeting corporate VPN users.",
+      "mitre_technique": "T1566",
+      "source": "seed-corpus"
+    },
+    {
+      "ioc_type": "ipv4",
+      "value": "203.0.113.50",
+      "severity": "medium",
+      "description": "Scanner node probing SSH and RDP; block at perimeter and review auth logs for successful connections.",
+      "mitre_technique": "T1110",
+      "source": "seed-corpus"
+    },
+    {
+      "ioc_type": "sha256",
+      "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "severity": "low",
+      "description": "Placeholder hash for documentation — replace with real sample in production intel feeds.",
+      "mitre_technique": null,
+      "source": "seed-corpus"
+    }
+  ]
+}
